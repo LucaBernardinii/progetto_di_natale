@@ -12,5 +12,25 @@ This code features all the old functionalities as well as new features to improv
 - Single-player mode against CPU
 - Higly readable output
 
+### Installation
+Instruction for installation:
+
+Type these commands in the terminal
+
+- 1) Create a Virtual Environment:
+```
+    python -m venv .venv
+```
+- 2) Activate the Virtual Environment:
+```
+    source .venv/bin/activate
+```
+- 3) Install the requirements:
+```
+    pip install -r requirements.txt
+```
+
+### UML Diagram
+
 ### Original project
 https://github.com/LucaBernardinii/briscola_progetto_fine_anno.git
