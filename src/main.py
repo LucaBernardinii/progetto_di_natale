@@ -1,4 +1,5 @@
 import random
+import json
 from termcolor import colored
 
 class Carta:
@@ -231,10 +232,95 @@ class Partita:
         print(f"Il punteggio è: {self.giocatore.punteggio} per {self.giocatore.nome} e {self.computer.punteggio} per il computer.")
         if self.giocatore.punteggio > self.computer.punteggio:
             print(f"{self.giocatore.nome} ha vinto la partita con {self.giocatore.punteggio}.")
+            self.aggiorna_record(self.giocatore.nome, "vittorie")
+            self.aggiorna_record(self.computer.nome, "sconfitte")
         elif self.giocatore.punteggio < self.computer.punteggio:
             print(f"Il computer ha vinto la partita con {self.computer.punteggio}.")
+            self.aggiorna_record(self.giocatore.nome, "sconfitte")
+            self.aggiorna_record(self.computer.nome, "vittorie")
         else:
             print(f"{self.giocatore.nome} e il computer hanno pareggiato totalizzando entrambi {self.giocatore.punteggio}.")
+        
+        scelta = input("Vuoi vedere i risultati? (s/n)").lower()
+        while scelta not in ["s", "n"]:
+            print("Errore, inserisci una scelta valida (s/n):")
+            scelta = input("Vuoi vedere i risultati? (s/n)").lower()
+        if scelta == "s":
+            self.verifica_achievements(self.giocatore.nome)
+            self.mostra_risultati()
+            
+
+    def aggiorna_record(self, nome, risultato):
+        try:
+            with open("record.json", "r") as file:
+                record = json.load(file)
+        except FileNotFoundError:
+            record = {}
+
+        if nome not in record:
+            record[nome] = {"vittorie": 0, "sconfitte": 0, "achievements": []}
+
+        record[nome][risultato] += 1
+
+        with open("record.json", "w") as file:
+            json.dump(record, file, indent=4)
+            
+    def assegna_achievement(self, nome, achievement):
+        try:
+            with open("record.json", "r") as file:
+                record = json.load(file)
+        except FileNotFoundError:
+            record = {}
+
+        if nome not in record:
+            record[nome] = {"vittorie": 0, "sconfitte": 0, "achievements": []}
+
+        if achievement not in record[nome]["achievements"]:
+            record[nome]["achievements"].append(achievement)
+            print(colored(f"Achievement sbloccato: {achievement}", "cyan"))
+
+        with open("record.json", "w") as file:
+            json.dump(record, file, indent=4)
+            
+    def verifica_achievements(self, nome):
+        try:
+            with open("record.json", "r") as file:
+                record = json.load(file)
+        except FileNotFoundError:
+            return
+
+        vittorie = record[nome]["vittorie"]
+        
+        if vittorie >= 1:
+            self.assegna_achievement(nome, "La Prima Di Tante")
+        if vittorie >= 10:
+            self.assegna_achievement(nome, "Inizi A Prenderci La Mano!")
+        if vittorie >= 50:
+            self.assegna_achievement(nome, "Giocatore Da Bar Del Paese")
+        if vittorie >= 100:
+            self.assegna_achievement(nome, "Pensionato")
+        if self.giocatore.punteggio == 120:
+            self.assegna_achievement(nome, "Vittoria Perfetta")
+            
+    def mostra_risultati(self):
+        try:
+            with open("record.json", "r") as file:
+                record = json.load(file)
+        except FileNotFoundError:
+            print("Nessun risultato trovato.")
+            return
+
+        nome = input("Inserisci il nome del giocatore per vedere i risultati: ")
+        if nome in record:
+            print(f"Risultati per {nome}:")
+            print(f"Vittorie: {record[nome]['vittorie']}")
+            print(f"Sconfitte: {record[nome]['sconfitte']}")
+            print("Achievements:")
+            for achievement in record[nome]["achievements"]:
+                print(f"- {achievement}")
+        else:
+            print("Nessun risultato trovato per questo giocatore.")
+
 
     def nuova_partita(self):
         scelta_partita = input("Vuoi fare un'altra partita? (s/n) ")
@@ -247,7 +333,7 @@ class Partita:
             return True
         elif scelta_partita == "n":
             print(f"{self.giocatore.nome} abbandona il tavolo.")
-            print("Grazie per aver giocato a Briscola romagnola in Python!")
+            print("Grazie per aver giocato a Briscola romagnola in Python Remastered!")
             return False
 
     def gioca(self):
