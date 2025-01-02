@@ -2,7 +2,7 @@
 ## Briscola Remastered
 
 ### Introduction
-This is a rerelease of the old Python Briscola Romagnola, this project refactors the code making it more readable with Object Oriented Programmation.
+This is a rerelease of the old Python Briscola Romagnola, this project refactors the code making it more readable with Object Oriented Programming.
 
 This code features all the old functionalities as well as new features to improve the game, allowing you to play the traditional Briscola romagnola italian card game.
 
@@ -11,6 +11,8 @@ This code features all the old functionalities as well as new features to improv
 - Traditional Briscola Romagnola rules
 - Single-player mode against CPU
 - Higly readable output
+- Progress Save
+- New Achievement System!
 
 ### Installation
 Instruction for installation:
@@ -30,7 +32,17 @@ Type these commands in the terminal
     pip install -r requirements.txt
 ```
 
-### UML Diagram
+### Running the game
+```
+    python src/main.py
+```
+
+### Author
+
+- Luca Bernardini - luca.bernardini@studenti.isissgobetti.it
+
+### License
+This project is distributed under the MIT License. See the LICENSE file for more details.
 
 ### Original project
 https://github.com/LucaBernardinii/briscola_progetto_fine_anno.git
