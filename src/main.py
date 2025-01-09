@@ -66,7 +66,7 @@ class Computer(Giocatore):
 
 class Partita:
     def __init__(self):
-        self.benvenuto()
+        self.menu()
         self.mazzo = Mazzo(["denari", "coppe", "bastoni", "spade"], ["Asso", 2, 3, 4, 5, 6, 7, "Fante", "Cavallo", "Re"])
         self.giocatore = Giocatore(input("Inserisci il tuo nome: "))
         self.computer = Computer("Computer")
@@ -76,16 +76,22 @@ class Partita:
         self.distribuzione_iniziale(self.computer)
         self.scelta_briscola()
         
-    def benvenuto(self):
+    def menu(self):
         print("Benvenuto al gioco della Briscola romagnola Remastered!")
-        tutorial = input("Conosci già il gioco della briscola?  (s/n): ").lower()
-        while tutorial not in ["s", "n"]:
-            print("Errore, inserisci una scelta valida (s/n):")
-            tutorial = input("Conosci già il gioco della briscola?  (s/n): ").lower()
-        if tutorial == "n":
+        print("1. Gioca")
+        print("2. Tutorial")
+        print("3. Risultati")
+        scelta = input("Cosa vuoi fare? (1/2/3): ")
+        while scelta not in ["1", "2", "3"]:
+            print("Errore, inserisci una scelta valida (1/2/3):")
+            scelta = input("Cosa vuoi fare? (1/2/3): ")
+        if scelta == "1":
+            print("Inizia la partita!")
+        elif scelta == "2":
             self.tutorial()
-        elif tutorial == "s":
-            print("Bene! Inzia la partita!")
+        elif scelta == "3":
+            self.mostra_risultati()
+            self.menu()
             
     def tutorial(self):
         print("Ecco una spiegazione delle regole della briscola: ")
@@ -323,12 +329,12 @@ class Partita:
 
 
     def nuova_partita(self):
-        scelta_partita = input("Vuoi fare un'altra partita? (s/n) ")
+        scelta_partita = input("Vuoi tornare al menu? (s/n) ")
         while scelta_partita not in ["s", "n"]:
             print("Errore scelta non valida.")
-            scelta_partita = input("Vuoi fare un'altra partita? (s/n) ")
+            scelta_partita = input("Vuoi tornare al menu? (s/n) ")
         if scelta_partita == "s":
-            print(f"{self.giocatore.nome} vuole giocare un'altra partita.")
+            print(f"{self.giocatore.nome} torna al menu principale.")
             print("_________________________________________________________________________")
             return True
         elif scelta_partita == "n":

@@ -30,7 +30,7 @@ classDiagram
         -computer: Computer
         -seme_briscola: str
         -primo_giocatore: str
-        +benvenuto()
+        +menu()
         +tutorial()
         +distribuzione_iniziale()
         +scelta_briscola()
